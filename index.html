@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedCare Pro - Advanced Hospital Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="description" content="Advanced Hospital Management System with Futuristic Interface">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="stars"></div>
+        <div class="stars2"></div>
+        <div class="stars3"></div>
+        <div class="floating-elements">
+            <div class="floating-element el-1"><i class="fas fa-heartbeat"></i></div>
+            <div class="floating-element el-2"><i class="fas fa-stethoscope"></i></div>
+            <div class="floating-element el-3"><i class="fas fa-pills"></i></div>
+            <div class="floating-element el-4"><i class="fas fa-syringe"></i></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-heart-pulse"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-main">MEDCARE</span>
+                    <span class="logo-sub">PRO</span>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link {% if not active_tab or active_tab == 'dashboard' %}active{% endif %}">
+                    <i class="fas fa-grid-2"></i>
+                    <span>Dashboard</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="/doctors" class="nav-link {% if active_tab == 'doctors' %}active{% endif %}">
+                    <i class="fas fa-user-md"></i>
+                    <span>Doctors</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="/patients" class="nav-link {% if active_tab == 'patients' %}active{% endif %}">
+                    <i class="fas fa-procedures"></i>
+                    <span>Patients</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="/treatments" class="nav-link {% if active_tab == 'treatments' %}active{% endif %}">
+                    <i class="fas fa-file-medical"></i>
+                    <span>Treatments</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="/bills" class="nav-link {% if active_tab == 'bills' %}active{% endif %}">
+                    <i class="fas fa-receipt"></i>
+                    <span>Billing</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="/analysis" class="nav-link {% if active_tab == 'analysis' %}active{% endif %}">
+                    <i class="fas fa-chart-network"></i>
+                    <span>Analytics</span>
+                    <div class="nav-glow"></div>
+                </a>
+                <a href="/reports" class="nav-link {% if active_tab == 'reports' %}active{% endif %}">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                    <div class="nav-glow"></div>
+                </a>
+            </div>
+            <div class="nav-user">
+                <div class="user-avatar">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Dashboard -->
+        {% if not active_tab or active_tab == 'dashboard' %}
+        <div class="dashboard">
+            <!-- Header -->
+            <div class="dashboard-header">
+                <div class="header-content">
+                    <h1 class="header-title">
+                        <span class="title-glow">Hospital Management</span>
+                        <span class="title-sub">Advanced Healthcare Solution</span>
+                    </h1>
+                    <div class="header-stats">
+                        <div class="stat-badge">
+                            <i class="fas fa-shield-check"></i>
+                            <span>System Active</span>
+                        </div>
+                        <div class="stat-badge">
+                            <i class="fas fa-database"></i>
+                            <span>Real-time Data</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card glass primary">
+                    <div class="stat-glow"></div>
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Doctors</h3>
+                            <p class="stat-number">{{ total_doctors }}</p>
+                            <span class="stat-trend">
+                                <i class="fas fa-arrow-up"></i>
+                                Medical Staff
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass success">
+                    <div class="stat-glow"></div>
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <i class="fas fa-procedures"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Patients</h3>
+                            <p class="stat-number">{{ total_patients }}</p>
+                            <span class="stat-trend">
+                                <i class="fas fa-users"></i>
+                                Active Cases
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass warning">
+                    <div class="stat-glow"></div>
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Treatments</h3>
+                            <p class="stat-number">{{ total_treatments }}</p>
+                            <span class="stat-trend">
+                                <i class="fas fa-chart-line"></i>
+                                Medical Procedures
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass danger">
+                    <div class="stat-glow"></div>
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Revenue</h3>
+                            <p class="stat-number">₹{{ "%.2f"|format(total_revenue) }}</p>
+                            <span class="stat-trend">
+                                <i class="fas fa-rupee-sign"></i>
+                                From Paid Bills
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="actions-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-rocket"></i> Quick Actions</h2>
+                    <p>Manage your hospital operations efficiently</p>
+                </div>
+                <div class="actions-grid">
+                    <a href="/doctors" class="action-card doctor">
+                        <div class="action-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Manage Doctors</h3>
+                            <p>Add and manage medical staff profiles</p>
+                            <span class="action-badge">Staff</span>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+
+                    <a href="/patients" class="action-card patient">
+                        <div class="action-icon">
+                            <i class="fas fa-procedures"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Manage Patients</h3>
+                            <p>Patient records and medical history</p>
+                            <span class="action-badge">Records</span>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+
+                    <a href="/treatments" class="action-card treatment">
+                        <div class="action-icon">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Record Treatment</h3>
+                            <p>Medical treatments and procedures</p>
+                            <span class="action-badge">Medical</span>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+
+                    <a href="/bills" class="action-card billing">
+                        <div class="action-icon">
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Manage Bills</h3>
+                            <p>Billing system and payments</p>
+                            <span class="action-badge">Finance</span>
+                        </div>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Getting Started -->
+            <div class="onboarding-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-play-circle"></i> Getting Started</h2>
+                    <p>Follow these steps to set up your hospital system</p>
+                </div>
+                <div class="onboarding-steps">
+                    <div class="step-card">
+                        <div class="step-number">01</div>
+                        <div class="step-content">
+                            <h3>Add Doctors</h3>
+                            <p>Start by adding doctors with their specializations and contact details</p>
+                        </div>
+                        <div class="step-action">
+                            <a href="/doctors" class="btn-outline">
+                                <i class="fas fa-plus"></i>
+                                Add Doctor
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">02</div>
+                        <div class="step-content">
+                            <h3>Register Patients</h3>
+                            <p>Add patient records with personal and medical information</p>
+                        </div>
+                        <div class="step-action">
+                            <a href="/patients" class="btn-outline">
+                                <i class="fas fa-plus"></i>
+                                Add Patient
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">03</div>
+                        <div class="step-content">
+                            <h3>Record Treatments</h3>
+                            <p>Create treatment records linking doctors to patients</p>
+                        </div>
+                        <div class="step-action">
+                            <a href="/treatments" class="btn-outline">
+                                <i class="fas fa-plus"></i>
+                                Add Treatment
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">04</div>
+                        <div class="step-content">
+                            <h3>Generate Bills</h3>
+                            <p>Create bills for treatments and track payment status</p>
+                        </div>
+                        <div class="step-action">
+                            <a href="/bills" class="btn-outline">
+                                <i class="fas fa-plus"></i>
+                                Add Bill
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Doctors Management -->
+        {% if active_tab == 'doctors' %}
+        <div class="management-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <h1><i class="fas fa-user-md"></i> Doctors Management</h1>
+                    <p>Manage medical staff and their specializations</p>
+                </div>
+                <button class="btn-primary glow" onclick="openModal('doctorModal')">
+                    <i class="fas fa-plus"></i> Add New Doctor
+                </button>
+            </div>
+
+            <div class="table-container glass">
+                {% if doctors %}
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Doctor Name</th>
+                            <th>Qualification</th>
+                            <th>Specialization</th>
+                            <th>Contact</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for doctor in doctors %}
+                        <tr>
+                            <td class="id-cell">#{{ doctor.did }}</td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="avatar doctor-avatar">
+                                        <i class="fas fa-user-md"></i>
+                                    </div>
+                                    <div>
+                                        <strong>{{ doctor.dname }}</strong>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ doctor.qualification }}</td>
+                            <td>
+                                <span class="specialization-tag">{{ doctor.specialization }}</span>
+                            </td>
+                            <td>{{ doctor.contact }}</td>
+                            <td>{{ doctor.email or 'N/A' }}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-danger" onclick="deleteDoctor({{ doctor.did }})">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3>No Doctors Added Yet</h3>
+                    <p>Start by adding doctors to your hospital system. Click the "Add New Doctor" button above to get started.</p>
+                    <button class="btn-primary glow" onclick="openModal('doctorModal')">
+                        <i class="fas fa-plus"></i> Add Your First Doctor
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Patients Management -->
+        {% if active_tab == 'patients' %}
+        <div class="management-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <h1><i class="fas fa-procedures"></i> Patients Management</h1>
+                    <p>Manage patient records and information</p>
+                </div>
+                <button class="btn-primary glow" onclick="openModal('patientModal')">
+                    <i class="fas fa-plus"></i> Add New Patient
+                </button>
+            </div>
+
+            <div class="table-container glass">
+                {% if patients %}
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Patient Name</th>
+                            <th>Contact</th>
+                            <th>Address</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Blood Group</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for patient in patients %}
+                        <tr>
+                            <td class="id-cell">#{{ patient.pid }}</td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="avatar patient-avatar">
+                                        <i class="fas fa-user-injured"></i>
+                                    </div>
+                                    <div>
+                                        <strong>{{ patient.pname }}</strong>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ patient.pcontact }}</td>
+                            <td>{{ patient.paddress }}</td>
+                            <td>{{ patient.age }}</td>
+                            <td>
+                                <span class="gender-badge {{ patient.gender|lower }}">{{ patient.gender }}</span>
+                            </td>
+                            <td>
+                                <span class="blood-group">{{ patient.blood_group or 'N/A' }}</span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-danger" onclick="deletePatient({{ patient.pid }})">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-procedures"></i>
+                    </div>
+                    <h3>No Patients Registered Yet</h3>
+                    <p>Start by adding patients to your hospital system. Click the "Add New Patient" button above to get started.</p>
+                    <button class="btn-primary glow" onclick="openModal('patientModal')">
+                        <i class="fas fa-plus"></i> Add Your First Patient
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Treatments Management -->
+        {% if active_tab == 'treatments' %}
+        <div class="management-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <h1><i class="fas fa-file-medical"></i> Treatments Management</h1>
+                    <p>Record and track patient treatments</p>
+                </div>
+                <button class="btn-primary glow" onclick="openModal('treatmentModal')">
+                    <i class="fas fa-plus"></i> Add New Treatment
+                </button>
+            </div>
+
+            <div class="table-container glass">
+                {% if treatments %}
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Disease</th>
+                            <th>Date</th>
+                            <th>Details</th>
+                            <th>Prescription</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for treatment in treatments %}
+                        <tr>
+                            <td class="id-cell">#{{ treatment.tid }}</td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="avatar patient-avatar">
+                                        <i class="fas fa-user-injured"></i>
+                                    </div>
+                                    <div>
+                                        <strong>{{ treatment.pname }}</strong>
+                                        <small>Blood: {{ treatment.blood_group }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="avatar doctor-avatar">
+                                        <i class="fas fa-user-md"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Dr. {{ treatment.dname }}</strong>
+                                        <small>{{ treatment.specialization }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="disease-tag">{{ treatment.disease }}</span>
+                            </td>
+                            <td>{{ treatment.treatment_date }}</td>
+                            <td class="truncate-text">{{ treatment.treatment_details }}</td>
+                            <td class="truncate-text">{{ treatment.prescription or 'No prescription' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <h3>No Treatments Recorded Yet</h3>
+                    <p>To record treatments, you need to first add doctors and patients to the system.</p>
+                    <div class="empty-actions">
+                        <a href="/doctors" class="btn-primary">
+                            <i class="fas fa-user-md"></i> Add Doctors
+                        </a>
+                        <a href="/patients" class="btn-primary">
+                            <i class="fas fa-procedures"></i> Add Patients
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Billing Management -->
+        {% if active_tab == 'bills' %}
+        <div class="management-section">
+            <div class="section-header">
+                <div class="section-title">
+                    <h1><i class="fas fa-receipt"></i> Billing Management</h1>
+                    <p>Manage patient bills and payments</p>
+                </div>
+                <button class="btn-primary glow" onclick="openModal('billModal')">
+                    <i class="fas fa-plus"></i> Add New Bill
+                </button>
+            </div>
+
+            <div class="table-container glass">
+                {% if bills %}
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Bill No</th>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Disease</th>
+                            <th>Amount</th>
+                            <th>Payment Mode</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bill in bills %}
+                        <tr>
+                            <td class="id-cell">#{{ bill.billno }}</td>
+                            <td>
+                                <div class="user-info">
+                                    <div class="avatar patient-avatar">
+                                        <i class="fas fa-user-injured"></i>
+                                    </div>
+                                    <div>
+                                        <strong>{{ bill.pname }}</strong>
+                                        <small>{{ bill.pcontact }}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Dr. {{ bill.dname }}</td>
+                            <td>{{ bill.disease }}</td>
+                            <td class="amount">₹{{ "%.2f"|format(bill.amount) }}</td>
+                            <td>
+                                <span class="payment-mode {{ bill.mode|lower }}">{{ bill.mode }}</span>
+                            </td>
+                            <td>{{ bill.payment_date }}</td>
+                            <td>
+                                <span class="status-badge status-{{ bill.status|lower }}">
+                                    {{ bill.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    {% if bill.status == 'Pending' %}
+                                    <button class="btn-success" onclick="markPaid({{ bill.billno }})">
+                                        <i class="fas fa-check"></i> Mark Paid
+                                    </button>
+                                    {% endif %}
+                                    <button class="btn-danger" onclick="deleteBill({{ bill.billno }})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <h3>No Bills Generated Yet</h3>
+                    <p>To generate bills, you need to first record treatments in the system.</p>
+                    <div class="empty-actions">
+                        <a href="/treatments" class="btn-primary">
+                            <i class="fas fa-file-medical"></i> Record Treatments
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Enhanced Analytics Section -->
+        {% if active_tab == 'analysis' %}
+        <div class="analytics-section">
+            <div class="analytics-header">
+                <div class="header-content">
+                    <h1 class="header-title">
+                        <span class="title-glow">Advanced Analytics</span>
+                        <span class="title-sub">Real-time Data from Paid Bills</span>
+                    </h1>
+                    <div class="header-stats">
+                        <div class="stat-badge">
+                            <i class="fas fa-chart-network"></i>
+                            <span>Real-time Data</span>
+                        </div>
+                        <div class="stat-badge">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Paid Bills Only</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revenue Information Banner -->
+            <div class="info-banner glass" style="margin-bottom: 2rem; padding: 1rem 1.5rem; border-left: 4px solid var(--primary);">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-info-circle" style="color: var(--primary-light); font-size: 1.2rem;"></i>
+                    <div>
+                        <strong>Revenue Calculation Note:</strong>
+                        <span style="color: var(--text-secondary); margin-left: 0.5rem;">
+                            Revenue is calculated only from bills with status "Paid". Pending bills are not included in revenue calculations.
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real-time Stats Cards -->
+            <div class="real-time-stats" id="realTimeStats">
+                <div class="stat-card glass primary">
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-injured"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Today's Patients</h3>
+                            <p class="stat-number" id="todayPatients">0</p>
+                            <span class="stat-trend">
+                                <i class="fas fa-users"></i>
+                                New Registrations
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass success">
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Today's Treatments</h3>
+                            <p class="stat-number" id="todayTreatments">0</p>
+                            <span class="stat-trend">
+                                <i class="fas fa-stethoscope"></i>
+                                Medical Procedures
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass warning">
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Today's Revenue</h3>
+                            <p class="stat-number" id="todayRevenue">₹0</p>
+                            <span class="stat-trend">
+                                <i class="fas fa-rupee-sign"></i>
+                                From Paid Bills
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass danger">
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Monthly Revenue</h3>
+                            <p class="stat-number" id="monthlyRevenue">₹0</p>
+                            <span class="stat-trend">
+                                <i class="fas fa-chart-line"></i>
+                                Current Month Paid
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Charts Grid -->
+            <div class="charts-grid">
+                <!-- Revenue Trend Chart -->
+                <div class="chart-card glass">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-chart-line"></i> Revenue Trends (Last 6 Months)</h3>
+                        <div class="chart-actions">
+                            <button class="btn-outline" onclick="downloadChart('revenueChart')">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="revenueChart" width="400" height="250"></canvas>
+                    </div>
+                    <div class="chart-footer" style="padding: 1rem; border-top: 1px solid var(--border-color);">
+                        <small style="color: var(--text-muted);">
+                            <i class="fas fa-info-circle"></i> Shows revenue only from paid bills
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Doctor Performance Chart -->
+                <div class="chart-card glass">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-user-md"></i> Top Performing Doctors</h3>
+                        <div class="chart-actions">
+                            <button class="btn-outline" onclick="downloadChart('doctorChart')">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="doctorChart" width="400" height="250"></canvas>
+                    </div>
+                    <div class="chart-footer" style="padding: 1rem; border-top: 1px solid var(--border-color);">
+                        <small style="color: var(--text-muted);">
+                            <i class="fas fa-info-circle"></i> Revenue based on paid bills for each doctor's treatments
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Disease Distribution Chart -->
+                <div class="chart-card glass">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-disease"></i> Common Diseases</h3>
+                        <div class="chart-actions">
+                            <button class="btn-outline" onclick="downloadChart('diseaseChart')">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="diseaseChart" width="400" height="250"></canvas>
+                    </div>
+                </div>
+
+                <!-- Payment Methods Chart -->
+                <div class="chart-card glass">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-credit-card"></i> Payment Methods Distribution</h3>
+                        <div class="chart-actions">
+                            <button class="btn-outline" onclick="downloadChart('paymentChart')">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="paymentChart" width="400" height="250"></canvas>
+                    </div>
+                    <div class="chart-footer" style="padding: 1rem; border-top: 1px solid var(--border-color);">
+                        <small style="color: var(--text-muted);">
+                            <i class="fas fa-info-circle"></i> Only includes successful payments
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Analytics Cards -->
+            <div class="analytics-grid">
+                <!-- Patient Registration Trend -->
+                <div class="chart-card glass">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-user-plus"></i> Patient Registration Trend</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="patientChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Treatment Statistics -->
+                <div class="stats-card glass">
+                    <div class="stats-header">
+                        <h3><i class="fas fa-chart-bar"></i> Quick Statistics</h3>
+                    </div>
+                    <div class="stats-content">
+                        <div class="stat-item">
+                            <span class="stat-label">Total Doctors</span>
+                            <span class="stat-value">{{ total_doctors }}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Total Patients</span>
+                            <span class="stat-value">{{ total_patients }}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Total Treatments</span>
+                            <span class="stat-value">{{ total_treatments }}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Total Revenue</span>
+                            <span class="stat-value">₹{{ "%.2f"|format(total_revenue) }}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Revenue Source</span>
+                            <span class="stat-value" style="color: var(--secondary);">Paid Bills</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Reports Section -->
+        {% if active_tab == 'reports' %}
+        <div class="reports-section">
+            <div class="reports-header">
+                <div class="header-content">
+                    <h1 class="header-title">
+                        <span class="title-glow">Comprehensive Reports</span>
+                        <span class="title-sub">Detailed Healthcare Analytics</span>
+                    </h1>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card glass primary">
+                    <div class="stat-glow"></div>
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <i class="fas fa-procedures"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Patients</h3>
+                            <p class="stat-number">{{ total_patients }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass success">
+                    <div class="stat-glow"></div>
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Doctors</h3>
+                            <p class="stat-number">{{ total_doctors }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass warning">
+                    <div class="stat-glow"></div>
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Treatments</h3>
+                            <p class="stat-number">{{ total_treatments }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass danger">
+                    <div class="stat-glow"></div>
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Revenue</h3>
+                            <p class="stat-number">₹{{ "%.2f"|format(total_revenue) }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if total_patients > 0 or total_doctors > 0 %}
+            <div class="reports-grid">
+                {% if doctor_stats %}
+                <div class="report-card glass">
+                    <div class="report-header">
+                        <h3><i class="fas fa-user-md"></i> Doctor Statistics</h3>
+                    </div>
+                    <div class="report-list">
+                        {% for doctor in doctor_stats %}
+                        <div class="report-item">
+                            <div class="report-item-header">
+                                <strong>Dr. {{ doctor.dname }}</strong>
+                                <span class="treatment-count">{{ doctor.treatment_count }} treatments</span>
+                            </div>
+                            <div class="report-item-details">
+                                <span class="specialization">{{ doctor.specialization }}</span>
+                                <span class="revenue">₹{{ "%.2f"|format(doctor.revenue) }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if recent_treatments %}
+                <div class="report-card glass">
+                    <div class="report-header">
+                        <h3><i class="fas fa-clock"></i> Recent Treatments</h3>
+                    </div>
+                    <div class="report-list">
+                        {% for treatment in recent_treatments %}
+                        <div class="report-item">
+                            <div class="report-item-header">
+                                <strong>{{ treatment.pname }}</strong>
+                                <span class="date">{{ treatment.treatment_date }}</span>
+                            </div>
+                            <div class="report-item-details">
+                                <span class="disease">{{ treatment.disease }}</span>
+                                <span class="doctor">Dr. {{ treatment.dname }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if pending_bills %}
+                <div class="report-card glass">
+                    <div class="report-header">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Pending Bills</h3>
+                    </div>
+                    <div class="report-list">
+                        {% for bill in pending_bills %}
+                        <div class="report-item">
+                            <div class="report-item-header">
+                                <strong>{{ bill.pname }}</strong>
+                                <span class="amount">₹{{ "%.2f"|format(bill.amount) }}</span>
+                            </div>
+                            <div class="report-item-details">
+                                <span class="date">Due: {{ bill.payment_date }}</span>
+                                <span class="status pending">Pending</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="report-card glass">
+                    <div class="report-header">
+                        <h3><i class="fas fa-chart-line"></i> Revenue Summary</h3>
+                    </div>
+                    <div class="revenue-summary">
+                        <div class="revenue-item">
+                            <span>Total Revenue:</span>
+                            <strong>₹{{ "%.2f"|format(total_revenue) }}</strong>
+                        </div>
+                        <div class="revenue-item">
+                            <span>Pending Amount:</span>
+                            <strong class="pending">₹{{ "%.2f"|format(pending_bills_amount) }}</strong>
+                        </div>
+                        <div class="revenue-item">
+                            <span>Total Bills:</span>
+                            <strong>{{ total_bills }}</strong>
+                        </div>
+                        <div class="revenue-item">
+                            <span>Revenue Source:</span>
+                            <strong style="color: var(--secondary);">Paid Bills Only</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3>No Data Available for Reports</h3>
+                <p>Start by adding doctors and patients to the system to generate meaningful reports and analytics.</p>
+                <div class="empty-actions">
+                    <a href="/doctors" class="btn-primary">
+                        <i class="fas fa-user-md"></i> Add Doctors
+                    </a>
+                    <a href="/patients" class="btn-primary">
+                        <i class="fas fa-procedures"></i> Add Patients
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Modals -->
+    <!-- Add Doctor Modal -->
+    <div id="doctorModal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-md"></i> Add New Doctor</h3>
+                <span class="close" onclick="closeModal('doctorModal')">&times;</span>
+            </div>
+            <form id="doctorForm" onsubmit="addDoctor(event)">
+                <div class="form-group">
+                    <label>Doctor Name</label>
+                    <input type="text" name="name" placeholder="Enter full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Qualification</label>
+                    <input type="text" name="qualification" placeholder="e.g., MD, MBBS" required>
+                </div>
+                <div class="form-group">
+                    <label>Specialization</label>
+                    <input type="text" name="specialization" placeholder="e.g., Cardiology" required>
+                </div>
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="text" name="contact" placeholder="+1-555-0101" required>
+                </div>
+                <div class="form-group">
+                    <label>Email (Optional)</label>
+                    <input type="email" name="email" placeholder="doctor@hospital.com">
+                </div>
+                <button type="submit" class="btn-primary btn-block glow">
+                    <i class="fas fa-plus"></i> Add Doctor
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Patient Modal -->
+    <div id="patientModal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h3><i class="fas fa-procedures"></i> Add New Patient</h3>
+                <span class="close" onclick="closeModal('patientModal')">&times;</span>
+            </div>
+            <form id="patientForm" onsubmit="addPatient(event)">
+                <div class="form-group">
+                    <label>Patient Name</label>
+                    <input type="text" name="name" placeholder="Enter full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Contact Number</label>
+                    <input type="text" name="contact" placeholder="+1-555-1001" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" name="address" placeholder="Enter complete address" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" name="age" placeholder="Age" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Blood Group (Optional)</label>
+                    <select name="blood_group">
+                        <option value="">Select Blood Group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary btn-block glow">
+                    <i class="fas fa-plus"></i> Add Patient
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Treatment Modal -->
+    <div id="treatmentModal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-medical"></i> Add New Treatment</h3>
+                <span class="close" onclick="closeModal('treatmentModal')">&times;</span>
+            </div>
+            <form id="treatmentForm" onsubmit="addTreatment(event)">
+                <div class="form-group">
+                    <label>Select Patient</label>
+                    <select name="patient_id" required>
+                        <option value="">Select Patient</option>
+                        {% for patient in patients_list %}
+                        <option value="{{ patient.pid }}">{{ patient.pname }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Select Doctor</label>
+                    <select name="doctor_id" required>
+                        <option value="">Select Doctor</option>
+                        {% for doctor in doctors_list %}
+                        <option value="{{ doctor.did }}">Dr. {{ doctor.dname }} - {{ doctor.specialization }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Disease/Condition</label>
+                    <input type="text" name="disease" placeholder="Enter disease name" required>
+                </div>
+                <div class="form-group">
+                    <label>Treatment Date</label>
+                    <input type="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label>Treatment Details</label>
+                    <textarea name="details" placeholder="Enter treatment details" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Prescription (Optional)</label>
+                    <textarea name="prescription" placeholder="Enter prescription details" rows="2"></textarea>
+                </div>
+                <button type="submit" class="btn-primary btn-block glow">
+                    <i class="fas fa-plus"></i> Add Treatment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Bill Modal -->
+    <div id="billModal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h3><i class="fas fa-receipt"></i> Add New Bill</h3>
+                <span class="close" onclick="closeModal('billModal')">&times;</span>
+            </div>
+            <form id="billForm" onsubmit="addBill(event)">
+                <div class="form-group">
+                    <label>Select Treatment</label>
+                    <select name="treatment_id" id="treatmentSelect" required>
+                        <option value="">Select Treatment</option>
+                        {% for treatment in treatments_list %}
+                        <option value="{{ treatment.tid }}">
+                            {{ treatment.pname }} - {{ treatment.disease }} (Dr. {{ treatment.dname }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Amount (₹)</label>
+                    <input type="number" name="amount" placeholder="0.00" step="0.01" min="0" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Payment Mode</label>
+                        <select name="mode" required>
+                            <option value="">Select Mode</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Card">Card</option>
+                            <option value="Online">Online</option>
+                            <option value="Insurance">Insurance</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Date</label>
+                        <input type="date" name="date" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="status" required>
+                            <option value="Pending">Pending</option>
+                            <option value="Paid">Paid</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Description (Optional)</label>
+                        <input type="text" name="description" placeholder="Bill description">
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary btn-block glow">
+                    <i class="fas fa-plus"></i> Add Bill
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Chart instances
+        let revenueChart, doctorChart, diseaseChart, paymentChart, patientChart;
+
+        // Initialize analytics when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.querySelector('.analytics-section')) {
+                loadAnalyticsData();
+                loadRealTimeStats();
+                // Refresh real-time stats every 30 seconds
+                setInterval(loadRealTimeStats, 30000);
+            }
+            
+            // Set current date for forms
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                if (!input.value) {
+                    input.value = today;
+                }
+            });
+        });
+
+        // Load real-time statistics
+        async function loadRealTimeStats() {
+            try {
+                const response = await fetch('/real_time_stats');
+                const data = await response.json();
+                
+                document.getElementById('todayPatients').textContent = data.today_patients;
+                document.getElementById('todayTreatments').textContent = data.today_treatments;
+                document.getElementById('todayRevenue').textContent = '₹' + data.today_revenue.toLocaleString('en-IN');
+                document.getElementById('monthlyRevenue').textContent = '₹' + data.monthly_revenue.toLocaleString('en-IN');
+            } catch (error) {
+                console.error('Error loading real-time stats:', error);
+                // Set zeros if there's an error
+                document.getElementById('todayPatients').textContent = '0';
+                document.getElementById('todayTreatments').textContent = '0';
+                document.getElementById('todayRevenue').textContent = '₹0';
+                document.getElementById('monthlyRevenue').textContent = '₹0';
+            }
+        }
+
+        // Load and render analytics data
+        async function loadAnalyticsData() {
+            try {
+                const response = await fetch('/analytics_data');
+                const data = await response.json();
+                
+                renderRevenueChart(data.revenue_trends);
+                renderDoctorChart(data.doctor_performance);
+                renderDiseaseChart(data.disease_stats);
+                renderPaymentChart(data.payment_methods);
+                renderPatientChart(data.patient_registrations);
+            } catch (error) {
+                console.error('Error loading analytics data:', error);
+                // Render empty charts if there's an error
+                renderRevenueChart([]);
+                renderDoctorChart([]);
+                renderDiseaseChart([]);
+                renderPaymentChart([]);
+                renderPatientChart([]);
+            }
+        }
+
+        // Render Revenue Trend Chart with better handling of empty data
+        function renderRevenueChart(data) {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            
+            if (revenueChart) revenueChart.destroy();
+            
+            // Handle empty data
+            if (!data || data.length === 0) {
+                revenueChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['No Data Available'],
+                        datasets: [{
+                            label: 'Revenue (₹)',
+                            data: [0],
+                            borderColor: '#6366f1',
+                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { enabled: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                ticks: { callback: value => '₹' + value }
+                            },
+                            x: { grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                        }
+                    }
+                });
+                return;
+            }
+            
+            revenueChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(item => item.month),
+                    datasets: [{
+                        label: 'Revenue (₹)',
+                        data: data.map(item => item.revenue),
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Revenue: ₹' + context.parsed.y.toLocaleString('en-IN');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { callback: value => '₹' + value.toLocaleString('en-IN') }
+                        },
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                    }
+                }
+            });
+        }
+
+        // Render Doctor Performance Chart
+        function renderDoctorChart(data) {
+            const ctx = document.getElementById('doctorChart').getContext('2d');
+            
+            if (doctorChart) doctorChart.destroy();
+            
+            // Handle empty data
+            if (!data || data.length === 0) {
+                doctorChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['No Data Available'],
+                        datasets: [{
+                            label: 'Revenue (₹)',
+                            data: [0],
+                            backgroundColor: 'rgba(99, 102, 241, 0.8)',
+                            borderColor: 'rgb(99, 102, 241)',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { tooltip: { enabled: false } },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                ticks: { callback: value => '₹' + value }
+                            },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+                return;
+            }
+            
+            doctorChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.map(item => item.doctor.split(' ').slice(-1)[0]), // Show only last name
+                    datasets: [{
+                        label: 'Revenue (₹)',
+                        data: data.map(item => item.revenue),
+                        backgroundColor: [
+                            'rgba(99, 102, 241, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(139, 92, 246, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgb(99, 102, 241)',
+                            'rgb(16, 185, 129)',
+                            'rgb(245, 158, 11)',
+                            'rgb(239, 68, 68)',
+                            'rgb(139, 92, 246)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const doctor = data[tooltipItems[0].dataIndex];
+                                    return doctor.doctor;
+                                },
+                                afterLabel: function(context) {
+                                    const doctor = data[context.dataIndex];
+                                    return [
+                                        `Specialization: ${doctor.specialization}`,
+                                        `Treatments: ${doctor.treatments}`
+                                    ];
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { callback: value => '₹' + value.toLocaleString('en-IN') }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // Render Disease Distribution Chart
+        function renderDiseaseChart(data) {
+            const ctx = document.getElementById('diseaseChart').getContext('2d');
+            
+            if (diseaseChart) diseaseChart.destroy();
+            
+            // Handle empty data
+            if (!data || data.length === 0) {
+                diseaseChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['No Data'],
+                        datasets: [{
+                            data: [100],
+                            backgroundColor: ['rgba(255, 255, 255, 0.1)'],
+                            borderWidth: 2,
+                            borderColor: 'var(--bg-secondary)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { enabled: false }
+                        }
+                    }
+                });
+                return;
+            }
+            
+            diseaseChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.map(item => item.disease),
+                    datasets: [{
+                        data: data.map(item => item.cases),
+                        backgroundColor: [
+                            'rgba(99, 102, 241, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(6, 182, 212, 0.8)',
+                            'rgba(236, 72, 153, 0.8)',
+                            'rgba(249, 115, 22, 0.8)'
+                        ],
+                        borderWidth: 2,
+                        borderColor: 'var(--bg-secondary)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: 'var(--text-secondary)',
+                                font: { size: 11 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                afterLabel: function(context) {
+                                    const disease = data[context.dataIndex];
+                                    return `Avg Cost: ₹${disease.avg_cost.toLocaleString('en-IN')}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Render Payment Methods Chart
+        function renderPaymentChart(data) {
+            const ctx = document.getElementById('paymentChart').getContext('2d');
+            
+            if (paymentChart) paymentChart.destroy();
+            
+            // Handle empty data
+            if (!data || data.length === 0) {
+                paymentChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['No Data'],
+                        datasets: [{
+                            data: [100],
+                            backgroundColor: ['rgba(255, 255, 255, 0.1)'],
+                            borderWidth: 2,
+                            borderColor: 'var(--bg-secondary)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: { enabled: false }
+                        }
+                    }
+                });
+                return;
+            }
+            
+            paymentChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: data.map(item => item.mode),
+                    datasets: [{
+                        data: data.map(item => item.amount),
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(99, 102, 241, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(6, 182, 212, 0.8)'
+                        ],
+                        borderWidth: 2,
+                        borderColor: 'var(--bg-secondary)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: 'var(--text-secondary)' }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const payment = data[context.dataIndex];
+                                    const total = data.reduce((sum, item) => sum + item.amount, 0);
+                                    const percentage = total > 0 ? ((payment.amount / total) * 100).toFixed(1) : 0;
+                                    return [
+                                        `${context.label}: ₹${context.parsed.toLocaleString('en-IN')}`,
+                                        `Transactions: ${payment.count}`,
+                                        `Share: ${percentage}%`
+                                    ];
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Render Patient Registration Chart
+        function renderPatientChart(data) {
+            const ctx = document.getElementById('patientChart').getContext('2d');
+            
+            if (patientChart) patientChart.destroy();
+            
+            // Handle empty data
+            if (!data || data.length === 0) {
+                patientChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['No Data Available'],
+                        datasets: [{
+                            label: 'Patient Registrations',
+                            data: [0],
+                            backgroundColor: 'rgba(6, 182, 212, 0.8)',
+                            borderColor: 'rgb(6, 182, 212)',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+                return;
+            }
+            
+            patientChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.map(item => item.month),
+                    datasets: [{
+                        label: 'Patient Registrations',
+                        data: data.map(item => item.count),
+                        backgroundColor: 'rgba(6, 182, 212, 0.8)',
+                        borderColor: 'rgb(6, 182, 212)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // Download chart as image
+        function downloadChart(chartId) {
+            const chartCanvas = document.getElementById(chartId);
+            const link = document.createElement('a');
+            link.download = `${chartId}.png`;
+            link.href = chartCanvas.toDataURL();
+            link.click();
+        }
+
+        // Refresh analytics data
+        function refreshAnalytics() {
+            loadAnalyticsData();
+            loadRealTimeStats();
+            showNotification('Analytics data refreshed!', 'success');
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            alert(message);
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Form submissions with better error handling
+        async function addDoctor(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                const response = await fetch('/add_doctor', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(result.message);
+                    closeModal('doctorModal');
+                    location.reload();
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                alert('Error adding doctor. Please try again.');
+            }
+        }
+
+        async function addPatient(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                const response = await fetch('/add_patient', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(result.message);
+                    closeModal('patientModal');
+                    location.reload();
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                alert('Error adding patient. Please try again.');
+            }
+        }
+
+        async function addTreatment(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                const response = await fetch('/add_treatment', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(result.message);
+                    closeModal('treatmentModal');
+                    location.reload();
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                alert('Error adding treatment. Please try again.');
+            }
+        }
+
+        async function addBill(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            console.log("Submitting bill data:", data);
+            
+            try {
+                const response = await fetch('/add_bill', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(result.message);
+                    closeModal('billModal');
+                    location.reload();
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                alert('Error adding bill. Please try again.');
+            }
+        }
+
+        // Delete functions
+        function deleteDoctor(did) {
+            if (confirm('Are you sure you want to delete this doctor?')) {
+                window.location.href = `/delete_doctor/${did}`;
+            }
+        }
+
+        function deletePatient(pid) {
+            if (confirm('Are you sure you want to delete this patient?')) {
+                window.location.href = `/delete_patient/${pid}`;
+            }
+        }
+
+        function deleteBill(billno) {
+            if (confirm('Are you sure you want to delete this bill?')) {
+                window.location.href = `/delete_bill/${billno}`;
+            }
+        }
+
+        function markPaid(billno) {
+            if (confirm('Mark this bill as paid?')) {
+                window.location.href = `/update_bill_status/${billno}`;
+            }
+        }
+    </script>
+</body>
+</html>
